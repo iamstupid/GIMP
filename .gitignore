@@ -1,0 +1,29 @@
+.deps/
+.libs/
+*.a
+*.dll
+*.dylib
+*.exe
+*.la
+*.lib
+*.lo
+*.o
+*.obj
+*.pdb
+
+# Autotools/configure outputs generated in-place.
+Makefile
+config.h
+config.log
+config.status
+gmp.h
+gmp.pc
+gmpxx.pc
+libtool
+stamp-h1
+
+# Common test/build byproducts.
+tests/*.trs
+tests/*.log
+tests/**/*.trs
+tests/**/*.log
