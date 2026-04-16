@@ -284,12 +284,26 @@ CXX_OBJECTS =								\
 libgmp_la_SOURCES = gmp-impl.h longlong.h				\
   assert.c compat.c errno.c extract-dbl.c invalid.c memory.c		\
   mp_bpl.c mp_clz_tab.c mp_dv_tab.c mp_minv_tab.c mp_get_fns.c mp_set_fns.c \
-  version.c nextprime.c primesieve.c
-EXTRA_libgmp_la_SOURCES = tal-debug.c tal-notreent.c tal-reent.c
+  version.c nextprime.c primesieve.c					\
+  experimental/gmp_fft_dp/gmp_fft_dp_backend_stubs.c
+EXTRA_libgmp_la_SOURCES = tal-debug.c tal-notreent.c tal-reent.c		\
+  experimental/gmp_fft_dp/gmp_fft_dp_backend.cc
+if WANT_CXX
+GMP_FFT_DP_BACKEND_OBJECT = experimental/gmp_fft_dp/gmp_fft_dp_backend.lo
+libgmp_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
+  $(LIBTOOLFLAGS) --mode=link $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) \
+  $(libgmp_la_LDFLAGS) $(LDFLAGS) -o $@
+else
+GMP_FFT_DP_BACKEND_OBJECT =
+libgmp_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
+  $(LIBTOOLFLAGS) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
+  $(libgmp_la_LDFLAGS) $(LDFLAGS) -o $@
+endif
 libgmp_la_DEPENDENCIES = @TAL_OBJECT@		\
   $(MPF_OBJECTS) $(MPZ_OBJECTS) $(MPQ_OBJECTS)	\
   $(MPN_OBJECTS) @mpn_objs_in_libgmp@		\
-  $(PRINTF_OBJECTS)  $(SCANF_OBJECTS) $(RANDOM_OBJECTS)
+  $(PRINTF_OBJECTS)  $(SCANF_OBJECTS) $(RANDOM_OBJECTS)		\
+  $(GMP_FFT_DP_BACKEND_OBJECT)
 libgmp_la_LIBADD = $(libgmp_la_DEPENDENCIES)
 libgmp_la_LDFLAGS = $(GMP_LDFLAGS) $(LIBGMP_LDFLAGS) \
   -version-info $(LIBGMP_LT_CURRENT):$(LIBGMP_LT_REVISION):$(LIBGMP_LT_AGE)

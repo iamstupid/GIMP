@@ -80,6 +80,12 @@ mpn_sqr (mp_ptr p, mp_srcptr a, mp_size_t n)
       mpn_toom6_sqr (p, a, n, ws);
       TMP_SFREE;
     }
+  else if (! BELOW_THRESHOLD (n, SQR_FFT_DP_THRESHOLD)
+           && n <= SQR_FFT_DP_MAX_BALANCED
+           && mpn_fft_dp_sqr_balanced (p, a, n))
+    {
+      return;
+    }
   else if (BELOW_THRESHOLD (n, SQR_FFT_THRESHOLD))
     {
       mp_ptr ws;

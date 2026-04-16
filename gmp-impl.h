@@ -1199,6 +1199,15 @@ __GMP_DECLSPEC void mpn_sqrlo (mp_ptr, mp_srcptr, mp_size_t);
 #define mpn_sqrlo_basecase __MPN(sqrlo_basecase)
 __GMP_DECLSPEC void mpn_sqrlo_basecase (mp_ptr, mp_srcptr, mp_size_t);
 
+#define mpn_fft_dp_mul_balanced __MPN(fft_dp_mul_balanced)
+__GMP_DECLSPEC int mpn_fft_dp_mul_balanced (mp_ptr, mp_srcptr, mp_srcptr, mp_size_t);
+
+#define mpn_fft_dp_mul __MPN(fft_dp_mul)
+__GMP_DECLSPEC int mpn_fft_dp_mul (mp_ptr, mp_srcptr, mp_size_t, mp_srcptr, mp_size_t);
+
+#define mpn_fft_dp_sqr_balanced __MPN(fft_dp_sqr_balanced)
+__GMP_DECLSPEC int mpn_fft_dp_sqr_balanced (mp_ptr, mp_srcptr, mp_size_t);
+
 #define mpn_mulmid_basecase __MPN(mulmid_basecase)
 __GMP_DECLSPEC void mpn_mulmid_basecase (mp_ptr, mp_srcptr, mp_size_t, mp_srcptr, mp_size_t);
 
@@ -2380,6 +2389,22 @@ __GMP_DECLSPEC mp_limb_t gmp_primesieve (mp_ptr, mp_limb_t);
 #endif
 #ifndef SQR_FFT_THRESHOLD
 #define SQR_FFT_THRESHOLD   (SQR_FFT_MODF_THRESHOLD * 10)
+#endif
+
+#ifndef MUL_FFT_DP_THRESHOLD
+#define MUL_FFT_DP_THRESHOLD  96
+#endif
+#ifndef SQR_FFT_DP_THRESHOLD
+#define SQR_FFT_DP_THRESHOLD  128
+#endif
+#ifndef MUL_FFT_DP_MAX_BALANCED
+#define MUL_FFT_DP_MAX_BALANCED  16384
+#endif
+#ifndef SQR_FFT_DP_MAX_BALANCED
+#define SQR_FFT_DP_MAX_BALANCED  16384
+#endif
+#ifndef MUL_FFT_DP_IMBALANCE_THRESHOLD
+#define MUL_FFT_DP_IMBALANCE_THRESHOLD 64
 #endif
 
 /* Table of thresholds for successive modF FFT "k"s.  The first entry is

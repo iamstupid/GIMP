@@ -132,6 +132,11 @@ mpn_mul (mp_ptr prodp,
     {
       mpn_mul_n (prodp, up, vp, un);
     }
+  else if (! BELOW_THRESHOLD (vn, MUL_FFT_DP_IMBALANCE_THRESHOLD)
+           && mpn_fft_dp_mul (prodp, up, un, vp, vn))
+    {
+      return prodp[un + vn - 1];
+    }
   else if (vn < MUL_TOOM22_THRESHOLD)
     { /* plain schoolbook multiplication */
 
